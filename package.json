@@ -1,0 +1,21 @@
+{
+  "name": "sansa-openclaw-installer",
+  "version": "0.1.0",
+  "description": "One-line installer that configures OpenClaw to use Sansa as its AI provider.",
+  "license": "MIT",
+  "type": "module",
+  "author": "Sansa AI",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sansa-ai/openclaw-installer.git"
+  },
+  "scripts": {
+    "build": "esbuild src/install.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/install.mjs --banner:js='#!/usr/bin/env node'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}
