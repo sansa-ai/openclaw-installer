@@ -5,7 +5,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { CONFIG_PATH, SANSA_MODEL_ENTRY } from "./types.js";
+import { CONFIG_PATH, SANSA_BASE_URL, SANSA_MODEL_ENTRY } from "./types.js";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -81,10 +81,25 @@ export function patchOpenClawConfig(apiKey: string): void {
       mode: "merge",
       providers: {
         "sansa-ai": {
-          baseUrl: "https://api.sansaml.com/v1",
+          baseUrl: SANSA_BASE_URL,
           apiKey,
           api: "openai-completions",
           models: [SANSA_MODEL_ENTRY],
+        },
+        openai: {
+          baseUrl: SANSA_BASE_URL,
+          apiKey,
+          models: [
+            {
+              id: "sansa-auto",
+              name: "sansa-auto (Custom Provider)",
+              reasoning: true,
+              input: ["text"],
+              cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+              contextWindow: 131072,
+              maxTokens: 32768,
+            },
+          ],
         },
       },
     },
@@ -92,6 +107,20 @@ export function patchOpenClawConfig(apiKey: string): void {
       defaults: {
         model: { primary: "sansa-ai/sansa-auto" },
         models: { "sansa-ai/sansa-auto": { alias: "Sansa" } },
+      },
+    },
+    tools: {
+      media: {
+        audio: {
+          enabled: true,
+          models: [
+            {
+              provider: "openai",
+              model: "sansa-auto",
+              baseUrl: SANSA_BASE_URL,
+            },
+          ],
+        },
       },
     },
   };

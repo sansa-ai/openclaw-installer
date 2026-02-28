@@ -138,12 +138,15 @@ export const AGENTS_DIR = path.join(OPENCLAW_DIR, "agents");
 // Provider constants
 // ---------------------------------------------------------------------------
 
+/** Base URL for the Sansa API. */
+export const SANSA_BASE_URL = "https://api.sansaml.com/v1";
+
 /** The sansa-auto model definition merged into openclaw.json. */
 export const SANSA_MODEL_ENTRY: ProviderModelEntry = {
   id: "sansa-auto",
   name: "sansa-auto (Custom Provider)",
   reasoning: true,
-  input: ["text"],
+  input: ["text", "image"],
   cost: { input: 1.5, output: 6.0, cacheRead: 0, cacheWrite: 0 },
   contextWindow: 131072,
   maxTokens: 32768,
